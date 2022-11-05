@@ -27,16 +27,16 @@ export class CQExceptionsFilter implements ExceptionFilter {
             const httpException = exception as HttpException;
             const response = httpException.getResponse();
             const code = (response as any)?.error as string || 'HTTP_ERROR';
-            commandError = new CommandError(httpException.message, code, {exception: httpException});
+            commandError = new CommandError(httpException.message, code, {exception: httpException}, exception.getStatus());
         } else if (Array.isArray(exception) && exception[0] instanceof ValidationError) {
-            commandError = new CommandError('Invalid payload ،،،!', 'VALIDATION_ERROR', exception);
+            commandError = new CommandError('Invalid payload ،،،!', 'VALIDATION_ERROR', exception, HttpStatus.BAD_REQUEST);
         } else if ((exception as any).message) {
             commandError = new CommandError((exception as any).message, (exception as any).code || 'UNKNOWN_ERROR', exception);
         } else {
             commandError = new CommandError('Unkown error occired ،،،!', 'UNSPECIFIED_ERROR');
         }
 
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        response.status(commandError.getStatus()).json({
             success: false,
             message: commandError.message,
             code: commandError.code,

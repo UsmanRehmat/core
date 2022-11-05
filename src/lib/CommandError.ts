@@ -4,8 +4,8 @@ import { CommandResponse } from '@h-platform/cqm'
 export class CommandError extends HttpException {
     success: boolean = false;
     
-    constructor(readonly message: string, readonly code: string, readonly data: any = {}) {
-        super(CommandResponse.error(message, code, data), HttpStatus.INTERNAL_SERVER_ERROR);
+    constructor(readonly message: string, readonly code: string, readonly data: any = {}, status: number = 500) {
+        super(CommandResponse.error(message, code, data), status);
         this.name = 'CommandError';
     }
     
