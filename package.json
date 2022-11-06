@@ -1,6 +1,6 @@
 {
   "name": "@h-platform/core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "This package defines exception filter for nestjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
