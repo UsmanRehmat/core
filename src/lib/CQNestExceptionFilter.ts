@@ -27,20 +27,24 @@ export class CQExceptionsFilter implements ExceptionFilter {
             newCommandError = exception as CommandError;
         } else if (exception instanceof HttpException) {
             // catch native nestjs exceptions
-            const httpException = exception as HttpException;
-            const response = httpException.getResponse();
-            const code = (response as any)?.error as string || 'HTTP_ERROR';
-            newCommandError = new CommandError(httpException.message, code, httpException, exception.getStatus());
+            // const httpException = exception as HttpException;
+            const response = exception.getResponse();
+            const status = exception.getStatus()
+            const code = exception.name;
+            newCommandError = new CommandError(exception.message, code, response, status);
         } else if (Array.isArray(exception) && exception[0] instanceof ValidationError) {
             // catch class vlidator exceptions
-            newCommandError = new CommandError('Invalid payload ،،،!', 'VALIDATION_ERROR', exception, HttpStatus.BAD_REQUEST);
+            newCommandError = new CommandError('Invalid payload ،،،!', 'INVALID_PAYLOAD', exception, HttpStatus.BAD_REQUEST);
         } else if ((exception as any).message) {
+            // handling simple Error(message)
+            // here is sql related error / http axios error / simple errors
             newCommandError = new CommandError((exception as any).message, (exception as any).code || 'UNKNOWN_ERROR', exception);
         } else {
-            newCommandError = new CommandError('Unkown error occired ،،،!', 'UNSPECIFIED_ERROR');
+            newCommandError = new CommandError('Unkown error occured ،،،!', 'UNSPECIFIED_ERROR');
         }
 
-        response.status(newCommandError.getStatus()).json({
+        const statusCode = newCommandError.getStatus ? newCommandError.getStatus() : 500;
+        response.status(statusCode).json({
             success: false,
             message: newCommandError.message,
             code: newCommandError.code,
