@@ -1,6 +1,6 @@
 {
-  "name": "@h-platform/core",
-  "version": "0.1.3",
+  "name": "@usmanrehmat/core",
+  "version": "0.1.4",
   "description": "This package defines exception filter for nestjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   "author": "Yasir Hantoush",
   "license": "MIT",
   "dependencies": {
-    "@h-platform/cqm": "^0.0.25",
+    "@usmanrehmat/cqm": "^0.0.28",
     "axios": "^0.27.2",
     "express": "^4.18.2"
   },
@@ -34,6 +34,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/h-platform/cqm.git"
+    "url": "git+https://github.com/UsmanRehmat/core.git"
   }
 }

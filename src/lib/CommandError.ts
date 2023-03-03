@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { CommandResponse } from '@h-platform/cqm'
+import { CommandResponse } from '@usmanrehmat/cqm'
 
 export class CommandError extends HttpException {
     success: boolean = false;
